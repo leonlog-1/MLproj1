@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SymptomAI — Disease Prediction Using Machine Learning</title>
+  <meta name="description" content="AI-powered disease prediction system from symptoms with clinical explanations and visual diagnostics. College mini-project.">
+  
+  <!-- Modern Healthcare Typography: Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <nav class="navbar" id="topNav">
+    <div class="nav-container">
+      <div class="brand">
+        <div class="brand-icon">
+          <!-- Medical Cross SVG -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M2 12h20"/>
+          </svg>
+        </div>
+        <span class="brand-name">Symptom<strong>AI</strong></span>
+        <span class="badge-ml">ML-Powered</span>
+      </div>
+
+      <div class="nav-links">
+        <a href="#hero" class="nav-link active">Home</a>
+        <a href="#checker-section" class="nav-link">Symptom Checker</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-content">
+
+    <!-- Hero Section -->
+    <header class="hero-section" id="hero">
+      <div class="hero-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <span>Supervised Classification &amp; Clinical Diagnostics</span>
+      </div>
+      <h1 class="hero-title">Understand Your Symptoms with AI</h1>
+      <p class="hero-subtitle">
+        Select the symptoms you are experiencing to explore probable conditions, detailed medical explanations, and visual probability figures predicted by our machine learning model.
+      </p>
+      <div class="hero-actions">
+        <a href="#checker-section" class="btn btn-primary btn-lg">
+          <span>Start Symptom Check</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <polyline points="19 12 12 19 5 12"></polyline>
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <!-- Symptom Checker Section -->
+    <section class="section-container" id="checker-section">
+      <div class="card checker-card">
+        
+        <div class="card-header">
+          <div class="card-title-group">
+            <h2 class="card-title">Symptom Evaluator</h2>
+            <p class="card-subtitle">Search from our 132 model-supported symptoms and select all that apply.</p>
+          </div>
+          <div class="selection-counter" id="selectionCounterBadge">
+            <span id="selectedCount">0</span> selected
+          </div>
+        </div>
+
+        <!-- Search and Selection Area -->
+        <div class="input-group">
+          <label for="symptomSearchInput" class="input-label">Search &amp; Add Symptoms</label>
+          <div class="search-box-wrapper">
+            <div class="search-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+            <input 
+              type="text" 
+              id="symptomSearchInput" 
+              class="search-input" 
+              placeholder="e.g., headache, fever, skin rash, joint pain, chest pain..." 
+              autocomplete="off"
+            >
+            <button type="button" id="clearSearchBtn" class="clear-search-btn" title="Clear search" style="display: none;">
+              &times;
+            </button>
+          </div>
+
+          <!-- Live Dropdown Suggestions -->
+          <div class="dropdown-list-container" id="dropdownList" style="display: none;">
+            <div class="dropdown-empty-state" id="dropdownEmpty">No matching symptoms found.</div>
+            <ul class="dropdown-items" id="dropdownItems"></ul>
+          </div>
+        </div>
+
+        <!-- Selected Symptoms Chips Area -->
+        <div class="selected-symptoms-section">
+          <div class="chips-header">
+            <span class="chips-title">Active Symptoms</span>
+            <button type="button" class="btn-text" id="clearAllBtn" style="display: none;">Clear All</button>
+          </div>
+          
+          <div class="chips-container" id="chipsContainer">
+            <div class="empty-chips-hint" id="emptyChipsHint">
+              No symptoms selected yet. Type above to search and add symptoms.
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Messages / Validation Alerts -->
+        <div class="alert alert-error" id="errorAlert" style="display: none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span id="errorMessage">Please select at least one symptom.</span>
+        </div>
+
+        <!-- Actions -->
+        <div class="card-footer">
+          <button type="button" id="predictBtn" class="btn btn-primary btn-block">
+            <span class="btn-label">Predict Possible Condition</span>
+            <span class="spinner" id="btnSpinner" style="display: none;"></span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Enhanced Prediction Result Card (Initially Hidden) -->
+      <div class="card result-card" id="resultCard" style="display: none;">
+        
+        <!-- Header Badges -->
+        <div class="result-badge-row">
+          <div class="badge-cluster">
+            <span class="badge-result">Prediction Result</span>
+            <span class="badge-category" id="resultCategoryBadge">Dermatology</span>
+            <span class="badge-system" id="resultSystemBadge">Integumentary System</span>
+          </div>
+          <span class="badge-model" id="resultModelName">Random Forest (100 Trees)</span>
+          <span class="badge-calibrated" id="resultCalibratedBadge" style="display:none;">Calibrated</span>
+        </div>
+
+        <!-- Figure 1: Primary Condition Showcase & Visual Confidence Meter -->
+        <div class="result-figures-grid">
+          
+          <!-- Condition & Clinical Profile -->
+          <div class="condition-profile-card">
+            <div class="result-condition-label">Primary Evaluated Condition</div>
+            <h3 class="result-disease" id="resultDiseaseName">Disease Name</h3>
+            
+            <div class="clinical-meta-chips">
+              <div class="meta-chip" id="severityMetaChip">
+                <span class="meta-dot" id="severityDot"></span>
+                <span>Severity: <strong id="resultSeverity">Moderate</strong></span>
+              </div>
+              <div class="meta-chip specialist-chip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>Consult: <strong id="resultSpecialist">General Physician</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual Confidence Radial Gauge -->
+          <div class="figure-confidence-gauge">
+            <div class="gauge-title">Figure 1: Model Confidence Gauge</div>
+            <div class="gauge-wrapper">
+              <svg class="radial-gauge-svg" viewBox="0 0 120 120">
+                <circle class="gauge-bg" cx="60" cy="60" r="50"></circle>
+                <circle class="gauge-progress" id="gaugeProgressCircle" cx="60" cy="60" r="50"></circle>
+              </svg>
+              <div class="gauge-center-text">
+                <span class="gauge-percent" id="gaugePercentText">0%</span>
+                <span class="gauge-label">Certainty</span>
+              </div>
+            </div>
+            <div class="gauge-assessment" id="gaugeAssessmentText">High Model Certainty</div>
+          </div>
+
+        </div>
+
+        <!-- Clinical Explanation Box -->
+        <div class="explanation-card">
+          <div class="explanation-header">
+            <div class="explanation-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+            </div>
+            <div>
+              <h4 class="explanation-title">Clinical Explanation &amp; Rationale</h4>
+              <p class="explanation-subtitle">Detailed pathophysiological overview of the predicted condition.</p>
+            </div>
+          </div>
+          <p class="explanation-body" id="resultExplanation">
+            Loading clinical description...
+          </p>
+        </div>
+
+        <!-- Figure 2: Differential Diagnosis Probability Distribution Chart -->
+        <div class="figure-chart-card" id="differentialChartCard">
+          <div class="chart-header">
+            <div class="chart-title-group">
+              <h4 class="chart-title">Figure 2: Differential Diagnosis Probability Distribution</h4>
+              <p class="chart-subtitle">Relative likelihood across alternative candidate conditions evaluated by ensemble trees.</p>
+            </div>
+          </div>
+          <div class="distribution-bars-container" id="distributionBarsList">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
+        <!-- Figure 4: SHAP Symptom Contribution Breakdown -->
+        <div class="figure-chart-card shap-chart-card" id="shapChartCard" style="display:none;">
+          <div class="chart-header">
+            <div class="chart-title-group">
+              <h4 class="chart-title">Figure 4: Symptom Contribution Analysis (SHAP)</h4>
+              <p class="chart-subtitle">How much each reported symptom contributed to this specific prediction, computed via SHAP values.</p>
+            </div>
+            <div class="shap-legend">
+              <span class="shap-legend-item shap-positive">▲ Toward prediction</span>
+              <span class="shap-legend-item shap-negative">▼ Against prediction</span>
+            </div>
+          </div>
+          <div class="shap-bars-container" id="shapBarsList">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
+        <!-- Figure 3: Clinical Precautions & Patient Guidance Cards -->
+        <div class="figure-precautions-card">
+          <div class="precautions-header">
+            <h4 class="precautions-title">Figure 3: Recommended Precautions &amp; Next Steps</h4>
+            <p class="precautions-subtitle">Medically-vetted self-care guidance and precautions for this condition.</p>
+          </div>
+          <div class="precautions-grid" id="precautionsGrid">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
+        <!-- Symptoms Submitted -->
+        <div class="result-submitted-symptoms">
+          <h4 class="submitted-title">Evaluated Input Symptoms (<span id="resultSymptomCount">0</span>):</h4>
+          <div class="result-chips" id="resultChips"></div>
+        </div>
+
+        <!-- Action / Reset -->
+        <div class="result-footer">
+          <button type="button" id="modifyBtn" class="btn btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+            </svg>
+            <span>Modify Symptoms &amp; Recalculate</span>
+          </button>
+        </div>
+
+        <!-- Medical Advisory Notice -->
+        <div class="medical-notice">
+          <strong>Important Clinical Disclaimer:</strong> SymptomAI is an academic demonstration developed for educational and machine learning research purposes only. It is not a clinical diagnostic device. Consult a licensed healthcare professional for medical emergencies and professional evaluation.
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="brand-name">Symptom<strong>AI</strong></span>
+        <span class="footer-tagline">Disease Prediction from Symptoms using Machine Learning</span>
+      </div>
+      <p class="footer-disclaimer">
+        College Mini-Project &middot; Machine Learning &amp; Full-Stack Python &middot; Supervised Classification Engine
+      </p>
+    </div>
+  </footer>
+
+  <script src="/static/js/script.js"></script>
+</body>
+</html>

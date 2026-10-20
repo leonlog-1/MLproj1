@@ -1,0 +1,98 @@
+======================================================================
+AI-BASED DISEASE PREDICTION FROM SYMPTOMS
+Model Training & Evaluation Report
+Generated: 2026-10-20 21:36:38
+======================================================================
+
+1. DATASET OVERVIEW
+   - Symptom Features: 132
+   - Target Diseases:  41
+   - Training Samples: 4,920
+   - Testing Samples:  42
+
+2. CANDIDATE MODELS EVALUATION SUMMARY
+Model Name               | Test Acc   | Precision  | Recall     | F1-Score   | 5-Fold CV
+--------------------------------------------------------------------------------
+Decision Tree            |  97.62%    |  98.81%    |  97.62%    |  97.62%    | 100.00% (±0.00%)
+Random Forest            |  97.62%    |  98.81%    |  97.62%    |  97.62%    | 100.00% (±0.00%)
+Gaussian Naive Bayes     | 100.00%    | 100.00%    | 100.00%    | 100.00%    | 100.00% (±0.00%)
+XGBoost                  |  97.62%    |  98.81%    |  97.62%    |  97.62%    | 100.00% (±0.00%)
+LightGBM                 |  97.62%    |  98.81%    |  97.62%    |  97.62%    | 100.00% (±0.00%)
+--------------------------------------------------------------------------------
+DEPLOYED MODEL: LightGBM
+
+3. DETAILED CLASSIFICATION REPORT (BEST MODEL ON TEST SET)
+                                         precision    recall  f1-score   support
+
+(vertigo) Paroymsal  Positional Vertigo       1.00      1.00      1.00         1
+                                   AIDS       1.00      1.00      1.00         1
+                                   Acne       1.00      1.00      1.00         1
+                    Alcoholic hepatitis       1.00      1.00      1.00         1
+                                Allergy       1.00      1.00      1.00         1
+                              Arthritis       1.00      1.00      1.00         1
+                       Bronchial Asthma       1.00      1.00      1.00         1
+                   Cervical spondylosis       1.00      1.00      1.00         1
+                            Chicken pox       0.50      1.00      0.67         1
+                    Chronic cholestasis       1.00      1.00      1.00         1
+                            Common Cold       1.00      1.00      1.00         1
+                                 Dengue       1.00      1.00      1.00         1
+                              Diabetes        1.00      1.00      1.00         1
+           Dimorphic hemmorhoids(piles)       1.00      1.00      1.00         1
+                          Drug Reaction       1.00      1.00      1.00         1
+                       Fungal infection       1.00      0.50      0.67         2
+                                   GERD       1.00      1.00      1.00         1
+                        Gastroenteritis       1.00      1.00      1.00         1
+                           Heart attack       1.00      1.00      1.00         1
+                            Hepatitis B       1.00      1.00      1.00         1
+                            Hepatitis C       1.00      1.00      1.00         1
+                            Hepatitis D       1.00      1.00      1.00         1
+                            Hepatitis E       1.00      1.00      1.00         1
+                          Hypertension        1.00      1.00      1.00         1
+                        Hyperthyroidism       1.00      1.00      1.00         1
+                           Hypoglycemia       1.00      1.00      1.00         1
+                         Hypothyroidism       1.00      1.00      1.00         1
+                               Impetigo       1.00      1.00      1.00         1
+                               Jaundice       1.00      1.00      1.00         1
+                                Malaria       1.00      1.00      1.00         1
+                               Migraine       1.00      1.00      1.00         1
+                        Osteoarthristis       1.00      1.00      1.00         1
+           Paralysis (brain hemorrhage)       1.00      1.00      1.00         1
+                    Peptic ulcer diseae       1.00      1.00      1.00         1
+                              Pneumonia       1.00      1.00      1.00         1
+                              Psoriasis       1.00      1.00      1.00         1
+                           Tuberculosis       1.00      1.00      1.00         1
+                                Typhoid       1.00      1.00      1.00         1
+                Urinary tract infection       1.00      1.00      1.00         1
+                         Varicose veins       1.00      1.00      1.00         1
+                            hepatitis A       1.00      1.00      1.00         1
+
+                               accuracy                           0.98        42
+                              macro avg       0.99      0.99      0.98        42
+                           weighted avg       0.99      0.98      0.98        42
+
+
+4. FEATURE IMPORTANCE (TOP 15 INFLUENTIAL SYMPTOMS)
+    1. itching                        (Weight: 2205.0000)
+    2. sweating                       (Weight: 1953.0000)
+    3. malaise                        (Weight: 1661.0000)
+    4. yellowing_of_eyes              (Weight: 1583.0000)
+    5. vomiting                       (Weight: 1555.0000)
+    6. chest_pain                     (Weight: 1410.0000)
+    7. lethargy                       (Weight: 1389.0000)
+    8. muscle_pain                    (Weight: 1025.0000)
+    9. fatigue                        (Weight: 973.0000)
+   10. stomach_pain                   (Weight: 935.0000)
+   11. breathlessness                 (Weight: 920.0000)
+   12. swelled_lymph_nodes            (Weight: 814.0000)
+   13. joint_pain                     (Weight: 741.0000)
+   14. abdominal_pain                 (Weight: 692.0000)
+   15. enlarged_thyroid               (Weight: 640.0000)
+
+5. PROBABILITY CALIBRATION
+   Method: Isotonic Regression (CalibratedClassifierCV, cv='prefit')
+   Benefit: Maps raw probability scores to true probability estimates,
+   reducing systematic overconfidence and improving Brier score.
+
+======================================================================
+End of Report
+======================================================================
